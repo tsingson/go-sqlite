@@ -25,7 +25,6 @@ func TestNamedParameters(t *testing.T) {
 	create table t(s1 varchar(32), s2 varchar(32), s3 varchar(32), s4 varchar(32));
 	insert into t values(?, @aa, $aa, @bb);
 	`, "1", sql.Named("aa", "one"), sql.Named("bb", "two"))
-
 	if err != nil {
 		t.Fatal(err)
 	}

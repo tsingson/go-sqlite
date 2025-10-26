@@ -172,7 +172,6 @@ func benchSelectWithIndex(b *testing.B, db *sql.DB) {
 
 		}
 	})
-
 }
 
 // corresponds to Test 8 from https://www.sqlite.org/speed.html
@@ -204,7 +203,6 @@ func benchUpdateWithoutIndex(b *testing.B, db *sql.DB) {
 			}
 		}
 	})
-
 }
 
 // corresponds to Test 9 from https://www.sqlite.org/speed.html

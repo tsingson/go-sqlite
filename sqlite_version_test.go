@@ -8,7 +8,6 @@ import (
 )
 
 func TestSQLiteVersion(t *testing.T) {
-
 	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		log.Fatal(err)

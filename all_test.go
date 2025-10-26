@@ -70,7 +70,7 @@ func stack() string { return string(debug.Stack()) }
 func use(...interface{}) {}
 
 func init() {
-	use(caller, dbg, stack, todo, trc) //TODOOK
+	use(caller, dbg, stack, todo, trc) // TODOOK
 }
 
 func origin(skip int) string {
@@ -86,20 +86,20 @@ func origin(skip int) string {
 	return fmt.Sprintf("%s:%d:%s", fn, fl, fns)
 }
 
-func todo(s string, args ...interface{}) string { //TODO-
+func todo(s string, args ...interface{}) string { // TODO-
 	switch {
 	case s == "":
 		s = fmt.Sprintf(strings.Repeat("%v ", len(args)), args...)
 	default:
 		s = fmt.Sprintf(s, args...)
 	}
-	r := fmt.Sprintf("%s: TODOTODO %s", origin(2), s) //TODOOK
+	r := fmt.Sprintf("%s: TODOTODO %s", origin(2), s) // TODOOK
 	fmt.Fprintf(os.Stdout, "%s\n", r)
 	os.Stdout.Sync()
 	return r
 }
 
-func trc(s string, args ...interface{}) string { //TODO-
+func trc(s string, args ...interface{}) string { // TODO-
 	switch {
 	case s == "":
 		s = fmt.Sprintf(strings.Repeat("%v ", len(args)), args...)
@@ -131,7 +131,7 @@ func testMain(m *testing.M) int {
 	var err error
 	tempDir, err = os.MkdirTemp("", "sqlite-test-")
 	if err != nil {
-		panic(err) //TODOOK
+		panic(err) // TODOOK
 	}
 
 	defer os.RemoveAll(tempDir)
@@ -899,7 +899,6 @@ func TestConcurrentGoroutines(t *testing.T) {
 		wg.Add(1)
 
 		go func(id int) {
-
 			defer wg.Done()
 
 		next:
@@ -989,7 +988,7 @@ func TestConcurrentProcesses(t *testing.T) {
 			b = bytes.ReplaceAll(b, []byte("\r\n"), []byte("\n"))
 		}
 
-		if err := os.WriteFile(filepath.Join(dir, filepath.Base(v)), b, 0666); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, filepath.Base(v)), b, 0o666); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -1059,7 +1058,6 @@ outer:
 				t.Logf("%v: %v", script, v)
 				continue outer
 			}
-
 		}
 		t.Fatalf("%s\nerror: summary line not found", out)
 	}
@@ -1928,7 +1926,7 @@ CREATE TABLE fileHash (
 	t.Logf("DB records: %v", n)
 }
 
-func saveHash(dbFile string, hash string, fileName string) (err error) {
+func saveHash(dbFile, hash, fileName string) (err error) {
 	db, err := sql.Open("sqlite", dbFile)
 	if err != nil {
 		return fmt.Errorf("could not open database: %v", err)
@@ -1961,7 +1959,7 @@ func executeSQL(db *sql.DB, query string, values ...interface{}) (*sql.Rows, err
 	return statement.Query(values...)
 }
 
-func lookupHash(dbFile string, hash string) (ok bool, err error) {
+func lookupHash(dbFile, hash string) (ok bool, err error) {
 	db, err := sql.Open("sqlite", dbFile)
 	if err != nil {
 		return false, fmt.Errorf("could not open database: %n", err)
@@ -2068,7 +2066,6 @@ CREATE TABLE IF NOT EXISTS loginst (
 			t.Fatal(err)
 		}
 	}
-
 }
 
 // https://gitlab.com/cznic/sqlite/-/issues/37
@@ -2097,7 +2094,8 @@ func TestPersistPragma(t *testing.T) {
 		{"foreign_keys", "on", int64(1)},
 		{"analysis_limit", "1000", int64(1000)},
 		{"application_id", "214", int64(214)},
-		{"encoding", "'UTF-16le'", "UTF-16le"}}
+		{"encoding", "'UTF-16le'", "UTF-16le"},
+	}
 
 	if err := testPragmas("testpersistpragma.sqlite", "testpersistpragma.sqlite", pragmas); err != nil {
 		t.Fatal(err)
@@ -2874,7 +2872,7 @@ func (c *concurrentBenchmark) run(b *testing.B, readers, writers int, drv, measu
 		sqlite3.MutexCounters.Clear()
 		sqlite3.MutexCounters.Enable()
 		sqlite3.MutexEnterCallers.Clear()
-		//sqlite3.MutexEnterCallers.Enable()
+		// sqlite3.MutexEnterCallers.Enable()
 		time.AfterFunc(time.Second, func() { close(c.stop) })
 		b.StartTimer()
 		close(c.start)
@@ -3066,7 +3064,6 @@ func (c *concurrentBenchmark) makeReaders(n int, mode string) {
 
 					atomic.AddInt32(&c.reads, 1)
 				}
-
 			}()
 		case "drv":
 			go func() {
@@ -3115,7 +3112,6 @@ func (c *concurrentBenchmark) makeReaders(n int, mode string) {
 
 					atomic.AddInt32(&c.reads, 1)
 				}
-
 			}()
 		default:
 			panic(todo(""))
@@ -3160,7 +3156,6 @@ func (c *concurrentBenchmark) makeWriters(n int, mode string) {
 					atomic.AddInt32(&c.records, 1)
 					atomic.AddInt32(&c.writes, 1)
 				}
-
 			}()
 		case "drv":
 			go func() {
@@ -3193,7 +3188,6 @@ func (c *concurrentBenchmark) makeWriters(n int, mode string) {
 					atomic.AddInt32(&c.records, 1)
 					atomic.AddInt32(&c.writes, 1)
 				}
-
 			}()
 		default:
 			panic(todo(""))

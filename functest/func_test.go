@@ -144,7 +144,6 @@ func TestRegisteredFunctions(t *testing.T) {
 			if g, e := a, 42; g != e {
 				tt.Fatal(g, e)
 			}
-
 		})
 	})
 
@@ -159,7 +158,6 @@ func TestRegisteredFunctions(t *testing.T) {
 			if g, e := a, 1e-2; g != e {
 				tt.Fatal(g, e)
 			}
-
 		})
 	})
 

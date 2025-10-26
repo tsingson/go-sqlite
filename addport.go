@@ -51,7 +51,7 @@ func main() {
 				return fmt.Errorf("reading %s: %v", path, err)
 			}
 
-			if err := os.WriteFile(dst, b, 0640); err != nil {
+			if err := os.WriteFile(dst, b, 0o640); err != nil {
 				return fmt.Errorf("writing %s: %v", dst, err)
 			}
 			fmt.Printf("%s -> %s\n", path, dst)
